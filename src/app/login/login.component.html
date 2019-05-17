@@ -1,0 +1,16 @@
+<div class="login-page-header" id="app-header"></div>
+<div class="login-area">
+  <h2 class="login-head">Login</h2>
+  <form name="login" (ngSubmit)="submitLogin()">
+    <mat-form-field class="example-full-width">
+      <input class="login-user" matInput placeholder="Enter User Name" required name="username"
+             [(ngModel)] = "loginData.username">
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <input class="login-user" type="password" matInput placeholder="Enter Password" required
+             name="password" [(ngModel)] = "loginData.password">
+    </mat-form-field>
+    <input type="submit" class="submit-button" value="Submit" mat-button>
+    <button class="register-button" mat-raised-button [routerLink]="['/registration']">Register</button>
+  </form>
+</div>
