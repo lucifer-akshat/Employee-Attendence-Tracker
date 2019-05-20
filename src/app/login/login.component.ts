@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { SettingsService } from '../settings.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.sass']
 })
+
 export class LoginComponent implements OnInit {
 
   loginData: any = {};
@@ -14,7 +16,9 @@ export class LoginComponent implements OnInit {
   i: any;
   textLength: any;
 
-  constructor() { }
+  constructor(
+    private configData: SettingsService
+  ) { }
 
   ngOnInit() {
 
@@ -26,7 +30,14 @@ export class LoginComponent implements OnInit {
   }
 
   submitLogin() {
-    console.log(JSON.stringify(this.loginData));
+    const loginPayloadData = {
+      email: this.loginData.email,
+      password: this.loginData.password
+    };
+    this.configData.submitLoginCall(loginPayloadData)
+      .subscribe( response => {
+        console.log(response, 'response');
+      });
   }
 
 }
