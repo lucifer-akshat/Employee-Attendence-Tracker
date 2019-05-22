@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { SettingsService } from '../settings.service';
 
 @Component({
@@ -10,6 +11,7 @@ import { SettingsService } from '../settings.service';
 export class LoginComponent implements OnInit {
 
   loginData: any = {};
+  userData: any = {};
 
   textOfHeader: any;
   time: any;
@@ -17,7 +19,8 @@ export class LoginComponent implements OnInit {
   textLength: any;
 
   constructor(
-    private configData: SettingsService
+    private configData: SettingsService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -36,6 +39,11 @@ export class LoginComponent implements OnInit {
     };
     this.configData.submitLoginCall(loginPayloadData)
       .subscribe( response => {
+        this.userData = response.data;
+        sessionStorage.setItem(JSON.stringify(this.userData), 'user');
+        if (this.userData.id) {
+          this.router.navigate(['dashboard']);
+        }
         console.log(response, 'response');
       });
   }
