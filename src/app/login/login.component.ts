@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SettingsService } from '../settings.service';
+import { MatSnackBarModule } from '@angular/material';
 
 @Component({
   selector: 'app-login',
@@ -17,10 +18,12 @@ export class LoginComponent implements OnInit {
   time: any;
   i: any;
   textLength: any;
+  registrationMessage: string;
 
   constructor(
     private configData: SettingsService,
-    private router: Router
+    private router: Router,
+    private snackbar: MatSnackBarModule
   ) { }
 
   ngOnInit() {
@@ -30,6 +33,10 @@ export class LoginComponent implements OnInit {
     this.i = 0;
 
     displayLoginPageHeader(this.textOfHeader, this.textLength, this.i);
+    this.configData.getRegisterDone().subscribe( response => {
+      console.log(response);
+      this.registrationMessage = 'Registration Successful';
+    });
   }
 
   submitLogin() {
@@ -40,8 +47,9 @@ export class LoginComponent implements OnInit {
     this.configData.submitLoginCall(loginPayloadData)
       .subscribe( response => {
         this.userData = response.data;
-        sessionStorage.setItem(JSON.stringify(this.userData), 'user');
         if (this.userData.id) {
+          sessionStorage.setItem('user', JSON.stringify(this.userData));
+          this.configData.setUserDetails(this.userData);
           this.router.navigate(['dashboard']);
         }
         console.log(response, 'response');
