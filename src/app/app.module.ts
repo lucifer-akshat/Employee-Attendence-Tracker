@@ -1,5 +1,6 @@
 import {MatDialogModule, MatFormFieldModule, MatInputModule} from '@angular/material';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpconfigInterceptor } from './interceptor/httpconfig.interceptor';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material';
@@ -14,7 +15,6 @@ import { RegistrationComponent } from './registration/registration.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NavbarComponent } from './navbar/navbar.component';
-// import { Setting } from './settings.service';
 
 const AngularMaterials = [
   MatDialogModule,
@@ -43,7 +43,9 @@ const AngularMaterials = [
   exports: [
     AngularMaterials
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: HttpconfigInterceptor, multi: true}
+  ],
   entryComponents: [LoginComponent, RegistrationComponent],
   bootstrap: [AppComponent]
 })

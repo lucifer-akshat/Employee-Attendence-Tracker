@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Config } from '../Config/apiRouteUrl';
 
 @Injectable({
@@ -29,10 +29,16 @@ export class SettingsService {
   }
 
   submitLoginCall(loginParams): Observable<any> {
-    return this.http.post(Config.apiRoute + '/login', loginParams);
+    const headers = new HttpHeaders().set('X-Skip-Interceptor', '');
+    return this.http.post(Config.apiRoute + '/login', loginParams, {headers});
   }
 
   submitRegistrationData(registrationData): Observable<any> {
-    return this.http.post(Config.apiRoute + '/register', registrationData);
+    const headers = new HttpHeaders().set('X-Skip-Interceptor', '');
+    return this.http.post(Config.apiRoute + '/register', registrationData, {headers});
+  }
+
+  getLoginRecords(userId): Observable<any> {
+    return this.http.get(Config.apiRoute + '/getLoginDetails?id=' + userId);
   }
 }
