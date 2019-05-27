@@ -3,17 +3,18 @@
     <h2 class="login-head">Registration</h2>
     <form name="registrationForm" (ngSubmit) = "submitRegistration()">
       <mat-form-field class="example-full-width">
-        <input class="login-user" matInput placeholder="Enter User Name" required name="username">
+        <input class="login-user" matInput placeholder="Enter User Name" required name="username"
+               [(ngModel)] = "registrationData.username">
       </mat-form-field>
       <mat-form-field class="example-full-width">
-        <input class="login-user" matInput placeholder="Enter Name" name="name">
+        <input class="login-user" matInput placeholder="Enter Name" name="name" [(ngModel)] = "registrationData.name">
       </mat-form-field>
       <mat-form-field class="example-full-width">
-        <input class="login-user" matInput placeholder="Enter Email Id" required name="emailId">
+        <input class="login-user" matInput placeholder="Enter Email Id" required name="emailId" [(ngModel)] = "registrationData.email">
       </mat-form-field>
       <mat-form-field class="example-full-width">
         <input class="login-user" type="password" matInput placeholder="Enter Password" required
-               name="password">
+               name="password" [(ngModel)] = "registrationData.password">
       </mat-form-field>
       <div class="form-end-button">
         <input type="submit" class="submit-button" value="Submit" mat-button>

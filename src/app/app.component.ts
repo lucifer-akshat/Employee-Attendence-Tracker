@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import {SettingsService} from './settings.service';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -9,11 +11,15 @@ import { Router } from '@angular/router';
 })
 export class AppComponent implements OnInit {
   title = 'employee-attendence-tracker';
-  constructor(private router: Router) {
+
+  constructor(private router: Router,  private configData: SettingsService) {
 
   }
 
   ngOnInit() {
+    this.configData.getUserDetails.subscribe(val => {
+      console.log(val, 'val');
+    });
   }
 
 }

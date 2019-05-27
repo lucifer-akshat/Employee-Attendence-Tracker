@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SettingsService } from '../settings.service';
+import { MatSnackBar,
+  MatSnackBarConfig,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition} from '@angular/material';
 
 @Component({
   selector: 'app-login',
@@ -18,9 +22,18 @@ export class LoginComponent implements OnInit {
   i: any;
   textLength: any;
 
+  actionButtonLabel: string = 'Continue';
+  registrationMessage: string = 'Registration Successful';
+  action: boolean = true;
+  setAutoHide: boolean = true;
+  autoHide: number = 8000;
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+
   constructor(
     private configData: SettingsService,
-    private router: Router
+    private router: Router,
+    public snackbar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -30,6 +43,15 @@ export class LoginComponent implements OnInit {
     this.i = 0;
 
     displayLoginPageHeader(this.textOfHeader, this.textLength, this.i);
+    this.configData.getRegisterDone().subscribe( response => {
+      console.log(response);
+      if (response === true) {
+        let config = new MatSnackBarConfig();
+        config.verticalPosition = this.verticalPosition;
+        config.horizontalPosition = this.horizontalPosition;
+        config.duration = this.setAutoHide ? this.autoHide : 0;
+        this.snackbar.open(this.registrationMessage, this.action ? this.actionButtonLabel : undefined, config); }
+    });
   }
 
   submitLogin() {
@@ -40,8 +62,9 @@ export class LoginComponent implements OnInit {
     this.configData.submitLoginCall(loginPayloadData)
       .subscribe( response => {
         this.userData = response.data;
-        sessionStorage.setItem(JSON.stringify(this.userData), 'user');
         if (this.userData.id) {
+          sessionStorage.setItem('user', JSON.stringify(this.userData));
+          this.configData.setUserDetails(this.userData);
           this.router.navigate(['dashboard']);
         }
         console.log(response, 'response');

@@ -1,7 +1,9 @@
 import {MatDialogModule, MatFormFieldModule, MatInputModule} from '@angular/material';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpconfigInterceptor } from './interceptor/httpconfig.interceptor';
 import { ReactiveFormsModule } from '@angular/forms';
-import {MatButtonModule} from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBarModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
@@ -12,13 +14,14 @@ import { AppComponent } from './app.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-// import { Setting } from './settings.service';
+import { NavbarComponent } from './navbar/navbar.component';
 
 const AngularMaterials = [
   MatDialogModule,
   MatButtonModule,
   MatFormFieldModule,
   MatInputModule,
+  MatSnackBarModule
 ];
 
 @NgModule({
@@ -26,7 +29,8 @@ const AngularMaterials = [
     AppComponent,
     RegistrationComponent,
     LoginComponent,
-    DashboardComponent
+    DashboardComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +43,9 @@ const AngularMaterials = [
   exports: [
     AngularMaterials
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: HttpconfigInterceptor, multi: true}
+  ],
   entryComponents: [LoginComponent, RegistrationComponent],
   bootstrap: [AppComponent]
 })
