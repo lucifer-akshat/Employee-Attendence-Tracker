@@ -14,6 +14,7 @@ export class DashboardComponent implements OnInit {
     private router: Router,
     private routeConfig: SettingsService
   ) { }
+  dashboardDetails: any;
 
   ngOnInit() {
     this.fetchDashboardData();
@@ -24,6 +25,11 @@ export class DashboardComponent implements OnInit {
     const userId = userDetails.id;
     this.routeConfig.getLoginRecords(userId).subscribe( response => {
       console.log(response);
+      this.dashboardDetails = response.data;
+      for (let i = 0; i < this.dashboardDetails.length; i++) {
+        this.dashboardDetails[i].loginTime = new Date(this.dashboardDetails[i].loginTime);
+        console.log(new Date(this.dashboardDetails[i].loginTime));
+      }
     });
   }
 

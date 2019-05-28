@@ -1,3 +1,24 @@
-<p>
-  dashboard works!
-</p>
+<div class="employee-tracker-dashboard-layout">
+  <div class="row employee-dashboard-layout-header">
+    <div class="col-md-4 employee-dashboard-header-content">
+      Login Day
+    </div>
+    <div class="col-md-4 employee-dashboard-header-content">
+      Login Time
+    </div>
+    <div class="col-md-4 employee-dashboard-header-content">
+      Logout Time
+    </div>
+  </div>
+  <div class="row employee-dashboard-layout-content" *ngFor="let loginDetails of dashboardDetails">
+    <div class="col-md-4 employee-dashboard-content">
+      {{loginDetails.loginTime | date}}
+    </div>
+    <div class="col-md-4 employee-dashboard-content">
+      {{loginDetails.loginTime | date: 'shortTime'}}
+    </div>
+    <div class="col-md-4">
+      <!--logout time details-->
+    </div>
+  </div>
+</div>

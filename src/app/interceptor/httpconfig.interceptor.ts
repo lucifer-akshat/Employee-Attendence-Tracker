@@ -7,13 +7,10 @@ HttpEvent,
 HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { SettingsService } from '../settings.service';
 
 @Injectable()
 export class HttpconfigInterceptor implements HttpInterceptor {
-  constructor(
-    private configData: SettingsService
-  ) {}
+  constructor() {}
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const userDetails = JSON.parse(sessionStorage.getItem('user'));
     if (userDetails !== null) {
